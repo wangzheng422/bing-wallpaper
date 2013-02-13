@@ -45,7 +45,7 @@
 
 <ul>
 <li>If desired change the default <strong>PICTURE_DIR</strong> in <strong>bing-wallpaper.sh</strong> to the wallpaper directory. If left unchanged the default value is <strong>~/Pictures/bing-wallpapers/</strong>.</li>
-<li>To have the script run everyday automatically you will need to setup launchd (Mac only, for Ubuntu see below).</li>
+<li>To have the script run everyday automatically you will need to setup launchd (Mac only, for Ubuntu see below). I have provided a sample plist file which can be copied to <strong>$HOME/Library/LaunchAgents</strong> and loaded with the command <code>launchctl load $HOME/Library/LaunchAgents/com.ideasftw.bing-wallpaper.plist</code>. Modify the plist as needed to point to <strong>bing-wallpaper.sh</strong>. For more information on configuring launchd <a href="http://blog.ideasftw.com/introduction-to-launchd">see here</a>.</li>
 <li>Open Mac's <code>System Preferences</code> -&gt; <code>Desktop &amp; Screensaver</code>, add the wallpaper directory, and configure to taste.</li>
 </ul><h2>Ubuntu</h2>
 
@@ -55,6 +55,8 @@
 <li>Change the path of <strong>bing-wallpaper.sh</strong> in <strong>bing-cron</strong> to the script location. If left unchanged the default value is <strong>~/Pictures/bing-wallpaper.sh</strong>.</li>
 <li>From the terminal run <code>crontab /path/to/bing-cron</code> to setup the cronjob.</li>
 </ul><p>The Ubuntu script was tested in Ubuntu 12.10.</p>
+
+<h2>Acknowledgement</h2>
 
 <p>Original script by ktmud can be found at <a href="https://github.com/ktmud/bing-wallpaper">https://github.com/ktmud/bing-wallpaper</a>.</p>
       </section>
