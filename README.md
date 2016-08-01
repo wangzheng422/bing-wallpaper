@@ -7,8 +7,9 @@ A script which downloads the latest picture of the day from Bing.com and saves
 it to a directory.
 
 The script was tested on:
-    Mac OS X 10.8.2 and 10.8.3
-    Ubuntu 12.04 - 13.10
+
+- Mac OS X 10.8 - 10.11
+- Ubuntu 12.04 - 16.04
 
 [Blog entry](http://blog.ideasftw.com/2012/12/bing-desktop-for-mac.html)
 
@@ -67,8 +68,6 @@ applications.
 * Startup programs:
   * From HUD, search for startup applications.
   * Add **bing-random-pic.sh** or **bing-wallpaper.sh**.
-
-The Ubuntu script was tested in Ubuntu 12.04 - 13.10.
 
 Acknowledgement
 ---------------
