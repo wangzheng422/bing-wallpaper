@@ -8,38 +8,46 @@ it to a directory.
 
 The script was tested on:
 
-- Mac OS X 10.8 - 10.11
+- Mac OS X 10.8 - 10.12
 - Ubuntu 12.04 - 16.04
-
-[Blog entry](http://blog.ideasftw.com/2012/12/bing-desktop-for-mac.html)
 
 How to use?
 -----------
 * Just run the **bing-wallpaper.sh** script from the terminal. The script will
-download the bing image.
-* If desired, change the default **PICTURE_DIR** in **bing-wallpaper.sh** to the
-wallpaper directory. If left unchanged the default value is
-**~/Pictures/bing-wallpapers/**.
+download today's bing image.
+* To see available options run the sript with the `--help` flag:
+
+```
+$ ./bing-wallpaper.sh --help
+Usage:
+  bing-wallpaper.sh [options]
+  bing-wallpaper.sh -h | --help
+  bing-wallpaper.sh --version
+
+Options:
+  -f --force                     Force download of picture. This will overwrite
+                                 the picture if the filename already exists.
+  -q --quiet                     Do not display log messages.
+  -n --filename <file name>      The name of the downloaded picture. Defaults to
+                                 the upstream name.
+  -p --picturedir <picture dir>  The full path to the picture download dir.
+                                 Will be created if it does not exist.
+                                 [default: $HOME/Pictures/bing-wallpapers/]
+  -h --help                      Show this screen.
+  --version                      Show version.
+```
 
 Configuration on Mac
 --------------------
 * Open Mac's `System Preferences` -> `Desktop & Screensaver`, add the wallpaper
 directory, and configure to taste.
 
-* To have the script run everyday automatically you will need to setup launchd
-(Mac only, for Ubuntu see below). I have provided a sample plist file, found in
-the Tools directory, which can be copied to **$HOME/Library/LaunchAgents** and
-loaded with the command
-  `launchctl load $HOME/Library/LaunchAgents/com.ideasftw.bing-wallpaper.plist`
-Modify the plist as needed to point to **bing-wallpaper.sh**. For more
-information on configuring launchd [see here](
-http://blog.ideasftw.com/2013/02/run-script-from-launchd-instead-of-cron.html).
-
-* Another option on Mac (and arguably a little simpler) is to set the Calendar
-app to run the **Tools/Bing Wallpaper.app** [at a recurring daily time](
-http://blog.ideasftw.com/2013/03/use-mac-calendar-and-automator-to-run.html).
-Modify the app (from within Automator) as it needs to point to
-**bing-wallpaper.sh** and the correct **PICTURE_DIR**.
+* To have the script run everyday automatically you will need to setup
+launchd. I have provided a sample plist file, found in the Tools
+directory, which can be copied to **$HOME/Library/LaunchAgents** and
+loaded with the command `launchctl load
+$HOME/Library/LaunchAgents/com.ideasftw.bing-wallpaper.plist`. Modify
+the plist as needed to point to **bing-wallpaper.sh**.
 
 Configuration on Ubuntu
 -----------------------
@@ -68,8 +76,3 @@ applications.
 * Startup programs:
   * From HUD, search for startup applications.
   * Add **bing-random-pic.sh** or **bing-wallpaper.sh**.
-
-Acknowledgement
----------------
-Original script by ktmud can be found at
-[https://github.com/ktmud/bing-wallpaper](https://github.com/ktmud/bing-wallpaper).
