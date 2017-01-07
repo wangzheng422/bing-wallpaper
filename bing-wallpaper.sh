@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 readonly SCRIPT=$(basename "$0")
-readonly VERSION='0.1.0'
+readonly VERSION='0.1.1'
 
 usage() {
 cat <<EOF
@@ -13,6 +13,7 @@ Usage:
 Options:
   -f --force                     Force download of picture. This will overwrite
                                  the picture if the filename already exists.
+  -s --ssl                       Communicate with bing.com over SSL.
   -q --quiet                     Do not display log messages.
   -n --filename <file name>      The name of the downloaded picture. Defaults to
                                  the upstream name.
@@ -49,6 +50,9 @@ while [[ $# -gt 0 ]]; do
         -f|--force)
             FORCE=true
             ;;
+        -s|--ssl)
+            SSL=true
+            ;;
         -q|--quiet)
             QUIET=true
             ;;
@@ -69,16 +73,17 @@ while [[ $# -gt 0 ]]; do
     shift
 done
 
+# Set options
+[ $QUIET ] && CURL_QUIET='-s'
+[ $SSL ]   && PROTO='https'   || PROTO='http'
+
 # Create picture directory if it doesn't already exist
 mkdir -p "${PICTURE_DIR}"
 
-# Set curl to be silent if quiet flag is set
-[ $QUIET ] && CURL_QUIET='-s'
-
 # Parse bing.com and acquire picture URL(s)
-urls=( $(curl -sL http://www.bing.com | \
+urls=( $(curl -sL $PROTO://www.bing.com | \
     grep -Eo "url:'.*?'" | \
-    sed -e "s/url:'\([^']*\)'.*/http:\/\/bing.com\1/" | \
+    sed -e "s/url:'\([^']*\)'.*/$PROTO:\/\/bing.com\1/" | \
     sed -e "s/\\\//g") )
 
 for p in "${urls[@]}"; do
