@@ -1,0 +1,8 @@
+title: Bing-wallpaper
+description: Bing.com wallpaper for OS X, and any Unix like desktop (eg. Ubuntu).
+google_analytics: UA-37361238-1
+show_downloads: true
+theme: jekyll-theme-slate
+
+gems:
+  - jekyll-mentions
