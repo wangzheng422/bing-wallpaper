@@ -34,6 +34,8 @@ Options:
   -p --picturedir <picture dir>  The full path to the picture download dir.
                                  Will be created if it does not exist.
                                  [default: $HOME/Pictures/bing-wallpapers/]
+  -r --resolution <resolution>   The resolution of the image to retrieve.
+                                 Supported resolutions: 1920x1200 1920x1080 800x480 400x240
   -h --help                      Show this screen.
   --version                      Show version.
 ```

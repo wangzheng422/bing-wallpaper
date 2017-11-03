@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
 readonly SCRIPT=$(basename "$0")
-readonly VERSION='0.1.1'
+readonly VERSION='0.2.0'
+readonly RESOLUTIONS=(1920x1200 1920x1080 800x480 400x240)
 
 usage() {
 cat <<EOF
@@ -20,6 +21,8 @@ Options:
   -p --picturedir <picture dir>  The full path to the picture download dir.
                                  Will be created if it does not exist.
                                  [default: $HOME/Pictures/bing-wallpapers/]
+  -r --resolution <resolution>   The resolution of the image to retrieve.
+                                 Supported resolutions: ${RESOLUTIONS[*]}
   -h --help                      Show this screen.
   --version                      Show version.
 EOF
@@ -33,12 +36,17 @@ print_message() {
 
 # Defaults
 PICTURE_DIR="$HOME/Pictures/bing-wallpapers/"
+RESOLUTION="1920x1080"
 
 # Option parsing
 while [[ $# -gt 0 ]]; do
     key="$1"
 
     case $key in
+        -r|--resolution)
+            RESOLUTION="$2"
+            shift
+            ;;
         -p|--picturedir)
             PICTURE_DIR="$2"
             shift
@@ -84,7 +92,8 @@ mkdir -p "${PICTURE_DIR}"
 urls=( $(curl -sL $PROTO://www.bing.com | \
     grep -Eo "url:'.*?'" | \
     sed -e "s/url:'\([^']*\)'.*/$PROTO:\/\/bing.com\1/" | \
-    sed -e "s/\\\//g") )
+    sed -e "s/\\\//g" | \
+    sed -e "s/\([[:digit:]]*x[[:digit:]]*\)/$RESOLUTION/") )
 
 for p in "${urls[@]}"; do
     if [ -z "$FILENAME" ]; then
