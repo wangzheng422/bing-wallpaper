@@ -2,7 +2,7 @@
 # shellcheck disable=SC1117
 
 readonly SCRIPT=$(basename "$0")
-readonly VERSION='0.3.0'
+readonly VERSION='0.4.0'
 readonly RESOLUTIONS=(1920x1200 1920x1080 800x480 400x240)
 
 usage() {
@@ -24,7 +24,7 @@ Options:
                                  [default: $HOME/Pictures/bing-wallpapers/]
   -r --resolution <resolution>   The resolution of the image to retrieve.
                                  Supported resolutions: ${RESOLUTIONS[*]}
-  -w --set-wallpaper             Set downloaded picture as wallpaper(Only mac support for now).
+  -w --set-wallpaper             Set downloaded picture as wallpaper (Only mac support for now).
   -h --help                      Show this screen.
   --version                      Show version.
 EOF
@@ -115,7 +115,7 @@ for p in "${urls[@]}"; do
 done
 
 if [ $SET_WALLPAPER ]; then
-/usr/bin/osascript<<END
+    /usr/bin/osascript<<END
 tell application "Finder"
 set desktop picture to POSIX file "$PICTURE_DIR/$filename"
 end tell

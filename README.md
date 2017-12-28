@@ -36,7 +36,7 @@ Options:
                                  [default: $HOME/Pictures/bing-wallpapers/]
   -r --resolution <resolution>   The resolution of the image to retrieve.
                                  Supported resolutions: 1920x1200 1920x1080 800x480 400x240
-  -w --set-wallpaper             Set downloaded picture as wallpaper(Only mac support for now).
+  -w --set-wallpaper             Set downloaded picture as wallpaper (Only mac support for now).
   -h --help                      Show this screen.
   --version                      Show version.
 ```
