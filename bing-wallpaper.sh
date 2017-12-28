@@ -24,6 +24,7 @@ Options:
                                  [default: $HOME/Pictures/bing-wallpapers/]
   -r --resolution <resolution>   The resolution of the image to retrieve.
                                  Supported resolutions: ${RESOLUTIONS[*]}
+  -w --set-wallpaper             Set downloaded picture as wallpaper(Only mac support for now).
   -h --help                      Show this screen.
   --version                      Show version.
 EOF
@@ -69,6 +70,9 @@ while [[ $# -gt 0 ]]; do
             usage
             exit 0
             ;;
+        -w|--set-wallpaper)
+            SET_WALLPAPER=true
+            ;;
         --version)
             printf "%s\n" $VERSION
             exit 0
@@ -109,3 +113,11 @@ for p in "${urls[@]}"; do
         print_message "Skipping: $filename..."
     fi
 done
+
+if [ $SET_WALLPAPER ]; then
+/usr/bin/osascript<<END
+tell application "Finder"
+set desktop picture to POSIX file "$PICTURE_DIR/$filename"
+end tell
+END
+fi
