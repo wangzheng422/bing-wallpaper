@@ -116,8 +116,6 @@ done
 
 if [ $SET_WALLPAPER ]; then
     /usr/bin/osascript<<END
-tell application "Finder"
-set desktop picture to POSIX file "$PICTURE_DIR/$filename"
-end tell
+tell application "System Events" to set picture of every desktop to ("$PICTURE_DIR/$filename" as POSIX file as alias)
 END
 fi
