@@ -37,6 +37,12 @@ print_message() {
     fi
 }
 
+transform_urls() {
+    sed -e "s/\\\//g" | \
+        sed -e "s/[[:digit:]]\{1,\}x[[:digit:]]\{1,\}/$RESOLUTION/" | \
+        tr "\n" " "
+}
+
 # Defaults
 PICTURE_DIR="$HOME/Pictures/bing-wallpapers/"
 RESOLUTION="1920x1080"
@@ -102,17 +108,13 @@ mkdir -p "${PICTURE_DIR}"
 read -ra urls < <(curl -sL $PROTO://www.bing.com | \
     grep -Eo "url:'.*?'" | \
     sed -e "s/url:'\([^']*\)'.*/$PROTO:\/\/bing.com\1/" | \
-    sed -e "s/\\\//g" | \
-    sed -e "s/\([[:digit:]]*x[[:digit:]]*\)/$RESOLUTION/" | \
-    tr "\n" " ")
+    transform_urls)
 
 if [ $BOOST ]; then
     read -ra archiveUrls < <(curl -sL "$PROTO://www.bing.com/HPImageArchive.aspx?format=js&n=$BOOST" | \
         grep -Eo "url\":\".*?\"" | \
-        sed -e "s/url\":\"\(.*\)\"/$PROTO:\/\/bing.com\1/" | \
-        sed -e "s/\\\//g" | \
-        sed -e "s/\([[:digit:]]*x[[:digit:]]*\)/$RESOLUTION/" | \
-        tr "\n" " ")
+        sed -e "s/url\":\"\([^\"]*\)\"/$PROTO:\/\/bing.com\1/" | \
+        transform_urls)
     urls=( "${urls[@]}" "${archiveUrls[@]}" )
 fi
 
