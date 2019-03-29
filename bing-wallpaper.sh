@@ -120,7 +120,7 @@ fi
 
 for p in "${urls[@]}"; do
     if [ -z "$FILENAME" ]; then
-        filename=$(echo "$p"|sed -e "s/.*\/\(.*\)/\1/")
+        filename=$(echo "$p" | sed -e 's/.*[?&;]id=\([^&]*\).*/\1/' | grep -oe '[^\.]*\.[^\.]*$')
     else
         filename="$FILENAME"
     fi
