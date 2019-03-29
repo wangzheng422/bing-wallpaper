@@ -32,7 +32,7 @@ EOF
 }
 
 print_message() {
-    if [ ! "$QUIET" ]; then
+    if [ -z "$QUIET" ]; then
         printf "%s\n" "${1}"
     fi
 }
@@ -98,8 +98,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 # Set options
-[ $QUIET ] && CURL_QUIET='-s'
-[ $SSL ]   && PROTO='https'   || PROTO='http'
+[ -n "$QUIET" ] && CURL_QUIET='-s'
+[ -n "$SSL" ]   && PROTO='https'   || PROTO='http'
 
 # Create picture directory if it doesn't already exist
 mkdir -p "${PICTURE_DIR}"
@@ -110,7 +110,7 @@ read -ra urls < <(curl -sL $PROTO://www.bing.com | \
     sed -e "s/url:'\([^']*\)'.*/$PROTO:\/\/bing.com\1/" | \
     transform_urls)
 
-if [ $BOOST ]; then
+if [ -n "$BOOST" ]; then
     read -ra archiveUrls < <(curl -sL "$PROTO://www.bing.com/HPImageArchive.aspx?format=js&n=$BOOST" | \
         grep -Eo "url\":\".*?\"" | \
         sed -e "s/url\":\"\([^\"]*\)\"/$PROTO:\/\/bing.com\1/" | \
@@ -120,11 +120,11 @@ fi
 
 for p in "${urls[@]}"; do
     if [ -z "$FILENAME" ]; then
-        filename=$(echo "$p"|sed -e "s/.*\/\(.*\)/\1/")
+        filename=$(echo "$p" | sed -e 's/.*[?&;]id=\([^&]*\).*/\1/' | grep -oe '[^\.]*\.[^\.]*$')
     else
         filename="$FILENAME"
     fi
-    if [ $FORCE ] || [ ! -f "$PICTURE_DIR/$filename" ]; then
+    if [ -n "$FORCE" ] || [ ! -f "$PICTURE_DIR/$filename" ]; then
         print_message "Downloading: $filename..."
         curl $CURL_QUIET -Lo "$PICTURE_DIR/$filename" "$p"
     else
@@ -132,7 +132,7 @@ for p in "${urls[@]}"; do
     fi
 done
 
-if [ $SET_WALLPAPER ]; then
+if [ -n "$SET_WALLPAPER" ]; then
     /usr/bin/osascript<<END
 tell application "System Events" to set picture of every desktop to ("$PICTURE_DIR/$filename" as POSIX file as alias)
 END
